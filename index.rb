@@ -13,7 +13,6 @@ end
 
 get '/missions/:id' do
   @mission = Mission.get(params[:id])
-
   "<h2>Mission #{@mission.id}: #{@mission.description}</h2>"
 end
 
@@ -23,8 +22,8 @@ end
 
 
 get '/users/:id' do
-  @users = User.get(params[:id])
-  "<h2>User #{@users.id}: #{@user.username}</h2>"
+  @user = User.get(params[:id])
+  "<h2>User #{@user.id}: #{@user.username}</h2>"
 end
 
 post '/user' do
