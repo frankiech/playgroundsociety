@@ -1,10 +1,11 @@
 require "twiliolib"
-require "env/load_vars"
 
 module SMS
-  @twilio_id = $TWILIO_ID
-  @twilio_secret = $TWILIO_SECRET
-  @twilio_phone = $TWILIO_PHONE
+  require 'env/load_vars' unless ENV["RACK_ENV"] == "production"
+
+  @twilio_id ||= ENV["TWILIO_ID"]
+  @twilio_secret ||= ENV["TWILIO_SECRET"]
+  @twilio_phone ||= ENV["TWILIO_PHONE"]
 
   def self.text(message, opts={})
     twilio = Twilio::RestAccount.new @twilio_id, @twilio_secret
