@@ -1,0 +1,32 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Users</title>
+  </head>
+
+  <body>
+    <h1>Users</h1>
+
+    <table>
+      <tr>
+        <th>id</th>
+        <th>username</th>
+        <th>phone</th>
+        <th>text</th>
+      </tr>
+      <% User.all.each do |user| %>
+        <tr>
+          <td><%= user.id %></td>
+          <td><%= user.username %></td>
+          <td><%= user.phone %></td>
+          <td><form action="/user" method="post">
+              <input type="text" name="message" />
+              <input type="submit" value="Send Text" />
+              <input type="hidden" name="phone" value="<%= user.phone %>" />
+          </form></td>
+        </tr>
+      <% end %>
+    </table>
+  </body>
+</html>
+

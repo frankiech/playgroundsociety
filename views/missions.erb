@@ -1,0 +1,24 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Mission</title>
+  </head>
+
+  <body>
+    <h1>Missions</h1>
+
+    <table>
+          <tr>
+            <th>id</th>
+            <th>description</th>
+          </tr>
+        <% @missions.each do |mission| %>
+          <tr>
+            <td><%= mission.id %></td>
+            <td><%= mission.description %></td>
+          </tr>
+      <% end %>
+    </table>
+  </body>
+</html>
+
