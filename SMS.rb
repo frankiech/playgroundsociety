@@ -1,8 +1,6 @@
 require "twiliolib"
 
 module SMS
-  require 'env/load_vars' unless ENV["RACK_ENV"] == "production"
-
   @twilio_id ||= ENV["TWILIO_ID"]
   @twilio_secret ||= ENV["TWILIO_SECRET"]
   @twilio_phone ||= ENV["TWILIO_PHONE"]
