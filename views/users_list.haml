@@ -1,0 +1,23 @@
+%header
+  %h1 Users
+  %h3= flash[:notice]
+%table
+  %tr
+    %th id
+    %th Name
+    %th Phone
+    %th SMS
+    %th Edit
+  - users.each do |user|
+    %tr
+      %td= user.id
+      %td= user.username
+      %td= user.phone
+      %td
+        %form(action="/users/#{user.id}/sendsms" method="POST")
+          .sms_input
+            %textarea.edit(name="message" placeholder="Write a SMS message")
+            %br/
+            %input(type="submit" value="Send SMS")
+      %td
+        %a(href="/users/#{user.id}/edit") Edit

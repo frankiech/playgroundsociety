@@ -1,0 +1,14 @@
+%header
+  %h1 Missions
+%table
+  %tr
+    %th id
+    %th Description
+    %th Actions
+  - missions.each do |mission|
+    %tr
+      %td= mission.id
+      %td= mission.description
+      %td
+        %a(href="/missions/#{mission.id}/edit") Edit
+
