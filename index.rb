@@ -31,7 +31,6 @@ get '/users' do
 end
 
 get '/users/:id/edit' do |id|
-  flash[:notice] = "edit #{id}"
   haml :user_update, :locals => {:user => User.get(id), :action => "/users/#{id}/update"}
 end
 
