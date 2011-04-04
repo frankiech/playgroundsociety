@@ -1,0 +1,74 @@
+/**
+ * You might tweak these..
+ */
+
+body, select, input, textarea {
+  /* #444 looks better than black: twitter.com/H_FJ/statuses/11800719859 */
+  color: #444;
+  /* Set your base font here, to apply evenly */
+  /* font-family: Georgia, serif;  */
+}
+
+/* Headers (h1, h2, etc) have no default font-size or margin; define those yourself */
+h1, h2, h3, h4, h5, h6 { font-weight: bold; }
+
+a, a:active, a:visited { color: #607890; }
+a:hover { color: #036; }
+
+/**
+ * Primary styles
+ *
+ * Author: 
+ */
+
+body { 
+  margin: 35px auto;
+  width: 960px;
+}
+
+header {
+  text-align: center;
+  margin: 0 0 20px;
+}
+
+header h1 { font-size: 20px; }
+
+table {
+  margin: 10px auto;
+}
+
+table tr td { 
+  /* background-color: #0f0f0f;*/
+  padding: 10px;
+  text-align: justify;
+}
+
+.edit form label {
+  font-weight: bold;
+  text-align: left;
+}
+
+.edit form {
+  text-align: center;
+}
+
+.edit textarea {
+  height: 60px;
+  width: 480px;
+  border: 1px solid #ddd;
+  padding: 10px;
+}
+
+.sms_input textarea {
+  height: 40px;
+  width: 300px;
+  border: 1px solid #ddd;
+  padding: 10px;
+}
+
+.footer { 
+  text-align: center; 
+  padding: 10px;
+}
+
+

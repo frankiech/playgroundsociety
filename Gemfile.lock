@@ -17,7 +17,10 @@ GEM
       do_postgres (~> 0.10.2)
     do_postgres (0.10.3)
       data_objects (= 0.10.3)
+    haml (3.0.25)
     rack (1.2.2)
+    rack-flash (0.1.1)
+      rack
     sinatra (1.2.1)
       rack (~> 1.1)
       tilt (< 2.0, >= 1.2.2)
@@ -33,5 +36,7 @@ DEPENDENCIES
   dm-migrations
   dm-postgres-adapter
   do_postgres
+  haml
+  rack-flash
   sinatra
   twiliolib
