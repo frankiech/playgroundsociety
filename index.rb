@@ -1,3 +1,4 @@
+require 'rubygems'
 require 'sinatra'
 require 'haml'
 require 'rack-flash'
@@ -7,40 +8,66 @@ require 'SMS'
 use Rack::Flash
 enable :sessions
 
+helpers do
+
+  def protected!
+    unless authorized?
+      response['WWW-Authenticate'] = %(Basic realm="Restricted Area")
+      throw(:halt, [401, "Not authorized\n"])
+    end
+  end
+
+  def authorized?
+    @auth ||=  Rack::Auth::Basic::Request.new(request.env)
+    @auth.provided? && @auth.basic? && @auth.credentials == [ENV['PS_USER'], ENV['PS_PASSWORD']]
+  end
+
+end
+
 get '/' do
   haml :index
 end
 
-get '/missions' do
+before '/admin/*' do
+  protected!
+end
+
+get '/admin/missions' do
   haml :missions_list, :locals => {:missions => Mission.all}
 end
 
-get '/missions/:id/edit' do |id|
+get '/admin/missions/:id/edit' do |id|
+  protected!
   haml :mission_update, :locals => {:mission => Mission.get(id), 
-                                    :action => "/missions/#{id}/update"}
+                                    :action => "/admin/missions/#{id}/update"}
 end
 
-post '/missions/:id/update' do |id|
+post '/admin/missions/:id/update' do |id|
+  protected!
   mission = Mission.get(id)
   mission.update params
-  redirect '/missions'
+  redirect '/admin/missions'
 end
 
-get '/users' do
+get '/admin/users' do
+  protected!
   haml :users_list, :locals => {:users => User.all}
 end
 
-get '/users/:id/edit' do |id|
-  haml :user_update, :locals => {:user => User.get(id), :action => "/users/#{id}/update"}
+get '/admin/users/:id/edit' do |id|
+  protected!
+  haml :user_update, :locals => {:user => User.get(id), :action => "/admin/users/#{id}/update"}
 end
 
-post '/users/:id/update' do |id|
+post '/admin/users/:id/update' do |id|
+  protected!
   user = User.get(id)
   user.update params
-  redirect '/users'
+  redirect '/admin/users'
 end
 
-post '/users/:id/sendsms' do |id|
+post '/admin/users/:id/sendsms' do |id|
+  protected!
   msg = params[:message]
   phone = User.get(id).phone
 
@@ -53,5 +80,5 @@ post '/users/:id/sendsms' do |id|
       flash[:notice] = "Error sending message '#{msg}' to #{phone}."
     end
   end
-  redirect '/users'
+  redirect '/admin/users'
 end
