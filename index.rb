@@ -67,7 +67,6 @@ post '/admin/users/:id/update' do |id|
 end
 
 post '/admin/users/:id/sendsms' do |id|
-  protected!
   msg = params[:message]
   phone = User.get(id).phone
 
