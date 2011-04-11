@@ -1,0 +1,18 @@
+%header
+  %h1= "Update User #{user.id}"
+.formLayout
+  %form(action="#{action}" method="POST")
+    .formRow
+      %label Username:
+      %input(type="text" name="username" value="#{user.username}")
+      %br
+
+    .formRow
+      %label Phone:
+      %input(type="text" name="phone" value="#{user.phone}")
+      %br
+
+    .formRow
+      %input(type="submit" value="Update User")
+      %form(action="/users/#{user.id}/destroy" method="POST")
+        %input(type="submit" value="Delete")

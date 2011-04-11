@@ -21,20 +21,34 @@ a:hover { color: #036; }
  * Author: 
  */
 
-body { 
+body {
   margin: 35px auto;
-  width: 960px;
+  width: 80%;
 }
 
 header {
   text-align: center;
-  margin: 0 0 20px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 header h1 { font-size: 20px; }
 
-table {
-  margin: 10px auto;
+header img {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 70%;
+  height: 70%;
+}
+
+content {
+  margin: 0 auto;
+}
+
+table  {
+  margin-left: auto;
+  margin-right: auto;
 }
 
 table tr td { 
@@ -43,20 +57,36 @@ table tr td {
   text-align: justify;
 }
 
-.edit form label {
-  font-weight: bold;
-  text-align: left;
+.formLayout input {
+  display: block;
+  width: 120px;
+  float: left;
+  margin-bottom: 10px;
 }
 
-.edit form {
-  text-align: center;
+.formLayout label {
+  display: block;
+  width: 120px;
+  float: left;
+  margin-bottom: 10px;
+  text-align: right;
+  padding-right: 20px;
 }
 
-.edit textarea {
+.formRow {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.missionUpdateLayout textarea {
   height: 60px;
   width: 480px;
   border: 1px solid #ddd;
   padding: 10px;
+}
+
+br {
+  clear: left;
 }
 
 .sms_input textarea {
@@ -66,9 +96,15 @@ table tr td {
   padding: 10px;
 }
 
-.footer { 
-  text-align: center; 
-  padding: 10px;
+.flash {
+  background-color: lightyellow;
+  text-align: center;
 }
 
-
+footer {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  padding-top: 30px;
+}

@@ -1,0 +1,11 @@
+%header
+  %h1= "Update Mission #{mission.id}"
+%content
+  .missionUpdateLayout
+    %form(action="#{action}" method="POST")
+      %label
+        %textarea.edit(name="description")= mission.description
+      %br
+      %input(type="submit" value="Update Mission")
+      %input(type="reset")
+

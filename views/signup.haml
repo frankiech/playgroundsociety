@@ -1,0 +1,22 @@
+%header
+  %h1= "Sign Up"
+%content
+  .formLayout
+    %form(action="#{action}" method="POST")
+      .formRow
+        %label Username:
+        %input(type="text" name="username")
+        %br
+      .formRow
+        %label Password:
+        %input(type="password" name="password")
+        %br
+      .formRow
+        %label Phone:
+        %input(type="text" name="phone")
+        %br
+      .formRow
+        %input(type="submit" value="Sign Up")
+        %input(type="reset")
+        %br
+  .flash= flash[:notice]
