@@ -3,14 +3,6 @@ require 'dm-migrations'
 
 DataMapper.setup(:default, ENV['DATABASE_URL'] || 'sqlite://' + Dir.pwd + '/db/cpa.db')
 
-class Mission
-  include DataMapper::Resource
-
-  property :id, Serial
-  property :description, String
-  property :category, String
-end
-
 class User
   include DataMapper::Resource
 
@@ -19,6 +11,24 @@ class User
   property :password_hash, String
   property :last_mission, Integer
   property :phone, String
+end
+
+class Mission
+  include DataMapper::Resource
+
+  property :id, Serial
+  property :description, String
+
+  has n, :campaigns, :through => Resource
+end
+
+class Campaign
+  include DataMapper::Resource
+
+  property :id, Serial
+  property :description, String
+
+  has n, :missions, :through => Resource
 end
 
 def load_missions

@@ -1,6 +1,5 @@
-%header
-  %h1 Users
-%content
+.span-16
+  %h2 Users
   .flash= flash[:notice]
   %table
     %tr
@@ -16,10 +15,9 @@
         %td= user.phone
         %td
           %form(action="/admin/users/#{user.id}/sendsms" method="POST")
-            .sms_input
-              %textarea.edit(name="message" placeholder="Write a SMS message")
-              %br/
-              %input(type="submit" value="Send SMS")
+            %textarea(rows="2" cols="5" name="message" placeholder="Write a SMS message")
+            %br/
+            %input(type="submit" value="Send SMS")
         %td
           %a(href="/admin/users/#{user.id}/edit") Edit
           %a(href="/admin/users/#{user.id}/delete") Delete

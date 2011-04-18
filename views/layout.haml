@@ -2,11 +2,28 @@
 %html
   %head
     %title Playground Society
-    %link(href="/css/reset.css" rel="stylesheet")
-    %link(href="/css/style.css" rel="stylesheet")
+    %link(href="/css/screen.css" rel="stylesheet" type="text/css" media="screen, projection")
+    %link(href="/css/print.css" rel="stylesheet" type="text/css" media="print")
+    /[if lt IE 8]
+      %link(href="/css/ie.css" rel="stylesheet" type="text/css" media="screen, projection")
+    %link(href="/css/style.css" rel="stylesheet" type="text/css" media="screen, projection")
+
   %body
-    = yield
-  %footer
-    -# %a(href="/") Home
-    -# %a(href="/signup")Sign Up
-    -# %a(href="/admin")Admin
+    .container.showgrid
+      .navbar.push-2
+        %a(href="/")
+          %img.span-4.nav-logo(src="/images/PlayGroundSociety.jpg")
+        %a(href="/about")
+          %img.span-4.nav-img(src="/images/About1.jpg")
+        %a(href="/play")
+          %img.span-4.nav-img(src="/images/PlayMissions1.jpg")
+        %a(href="/signup")
+          %img.span-4.nav-img(src="/images/SignIn1.jpg")
+
+      #content.push-2
+        = yield
+
+      #footer
+        -# %a(href="/") Home
+        -# %a(href="/signup")Sign Up
+        -# %a(href="/admin")Admin

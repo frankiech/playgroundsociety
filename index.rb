@@ -13,7 +13,7 @@ helpers do
   def protected!
     unless authorized?
       response['WWW-Authenticate'] = %(Basic realm="Restricted Area")
-      throw(:halt, [401, "Not authorized\n PW=#{ENV['PS_PASSWORD']}"])
+      throw(:halt, [401, "Not authorized"])
     end
   end
 
@@ -25,6 +25,14 @@ end
 
 get '/' do
   haml :index
+end
+
+get '/play' do
+  haml :play
+end
+
+get '/about' do
+  haml :about
 end
 
 get '/signup' do

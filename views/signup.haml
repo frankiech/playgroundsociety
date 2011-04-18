@@ -1,22 +1,24 @@
-%header
-  %h1= "Sign Up"
-%content
-  .formLayout
+.prepend-3
+  #signup-form.box.span-9
+    %h3 Sign Up
+    .flash= flash[:notice]
     %form(action="#{action}" method="POST")
-      .formRow
+      %p
         %label Username:
-        %input(type="text" name="username")
         %br
-      .formRow
+        %input.text(type="text" name="username")
+        %br
+      %p
         %label Password:
-        %input(type="password" name="password")
         %br
-      .formRow
+        %input.text(type="password" name="password")
+        %br
+      %p
         %label Phone:
-        %input(type="text" name="phone")
         %br
-      .formRow
+        %input.text(type="text" name="phone")
+        %br
+      %p
         %input(type="submit" value="Sign Up")
         %input(type="reset")
         %br
-  .flash= flash[:notice]

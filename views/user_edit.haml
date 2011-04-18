@@ -1,18 +1,17 @@
-%header
-  %h1= "Update User #{user.id}"
-.formLayout
-  %form(action="#{action}" method="POST")
-    .formRow
-      %label Username:
-      %input(type="text" name="username" value="#{user.username}")
-      %br
+.span-16
+  %h2.prepend-6= "Update User #{user.id}"
+  %form.push-6(action="#{action}" method="POST")
+    %label Username:
+    %br
+    %input(type="text" name="username" value="#{user.username}")
+    %br
 
-    .formRow
-      %label Phone:
-      %input(type="text" name="phone" value="#{user.phone}")
-      %br
+    %label Phone:
+    %br
+    %input(type="text" name="phone" value="#{user.phone}")
+    %br
 
-    .formRow
-      %input(type="submit" value="Update User")
-      %form(action="/users/#{user.id}/destroy" method="POST")
-        %input(type="submit" value="Delete")
+    %br
+    %input(type="submit" value="Update User")
+    %form(action="/users/#{user.id}/destroy" method="POST")
+      %input(type="submit" value="Delete")

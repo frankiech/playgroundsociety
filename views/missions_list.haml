@@ -1,14 +1,14 @@
-%header
-  %h1 Missions
-%table
-  %tr
-    %th id
-    %th Description
-    %th Actions
-  - missions.each do |mission|
+.span-16
+  %h2 Missions
+  %table
     %tr
-      %td= mission.id
-      %td= mission.description
-      %td
-        %a(href="/admin/missions/#{mission.id}/edit") Edit
-        %a(href="/admin/missions/#{mission.id}/destroy") Delete
+      %th id
+      %th Description
+      %th Actions
+    - missions.each do |mission|
+      %tr
+        %td= mission.id
+        %td= mission.description
+        %td
+          %a(href="/admin/missions/#{mission.id}/edit") Edit
+          %a(href="/admin/missions/#{mission.id}/destroy") Delete
