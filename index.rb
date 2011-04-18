@@ -47,37 +47,37 @@ post '/signup' do
   redirect '/signup'
 end
 
-get '/missions/:id' do
+get '/missions/:id' do |id|
   # Show a mission with documentation
   haml :mission_profile
 end
 
-get '/users/:id' do
+get '/users/:id' do |id|
   # User profile page with documentation
   haml :user_profile
 end
 
-get '/users/:id/new_document' do
+get '/users/:id/new_document' do |id|
   # Form to post a file
-  haml :new_document, :locals => {:action => "/users/#{params[:id]}/post_document"}
+  haml :new_document, :locals => {:action => "/users/#{id}/post_document"}
 end
 
-post '/users/:id/post_document' do
+post '/users/:id/post_document' do |id|
   # Post the documentation to Amazon S3
   if params[:file] and params[:mission_id]
     filename = params[:file][:filename]
     file = params[:file][:tempfile]
 
     AWS::S3::Base.establish_connection!(:access_key_id => ENV["AWS_ACCESS_KEY"], :secret_access_key => ENV["AWS_SECRET_KEY"])
-    AWS::S3::S3Object.store(params[:id] + filename, open(file), "playgroundsociety", :access => :public_read)
+    AWS::S3::S3Object.store(id + filename, open(file), "playgroundsociety", :access => :public_read)
 
-    Document.create(:path => filename, :description => params[:description], :created_at => Time.now, :user_id => params[:id], :mission_id => params[:mission_id])
+    Document.create(:path => filename, :description => params[:description], :created_at => Time.now, :user_id => id, :mission_id => params[:mission_id])
     flash[:notice] = "Successfully uploaded your documentation for Mission # #{params[:mission_id]}!"
   else
     flash[:notice] = "Error uploading documentation. Please enter a mission and attach a file."
   end
 
-  redirect "/users/#{params[:id]}/new_document"
+  redirect "/users/#{id}/new_document"
 end
 
 before '/admin/*' do
