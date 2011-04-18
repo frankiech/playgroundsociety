@@ -2,6 +2,10 @@ GEM
   remote: http://rubygems.org/
   specs:
     addressable (2.2.4)
+    aws-s3 (0.6.2)
+      builder
+      mime-types
+      xml-simple
     builder (3.0.0)
     data_objects (0.10.3)
       addressable (~> 2.1)
@@ -23,6 +27,7 @@ GEM
     do_sqlite3 (0.10.3)
       data_objects (= 0.10.3)
     haml (3.0.25)
+    mime-types (1.16)
     rack (1.2.2)
     rack-flash (0.1.1)
       rack
@@ -32,11 +37,13 @@ GEM
     tilt (1.2.2)
     twiliolib (2.0.7)
       builder (>= 2.1.2)
+    xml-simple (1.0.15)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
+  aws-s3
   dm-core
   dm-migrations
   dm-postgres-adapter
