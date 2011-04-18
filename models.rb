@@ -19,7 +19,7 @@ class Mission
   include DataMapper::Resource
 
   property :id, Serial
-  property :description, String
+  property :description, Text
 
   has n, :categories, :through => Resource
   has n, :documents
