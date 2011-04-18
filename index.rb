@@ -5,6 +5,7 @@ require 'rack-flash'
 require 'digest/sha1'
 require 'models'
 require 'SMS'
+require 'aws/s3'
 
 use Rack::Flash
 enable :sessions
@@ -44,6 +45,39 @@ post '/signup' do
                      :username => params[:username], :phone => params[:phone]);
   flash[:notice] = "Thanks for signing up! You will recieve your first mission within 72 hours."
   redirect '/signup'
+end
+
+get '/missions/:id' do
+  # Show a mission with documentation
+  haml :mission_profile
+end
+
+get '/users/:id' do
+  # User profile page with documentation
+  haml :user_profile
+end
+
+get '/users/:id/new_document' do
+  # Form to post a file
+  haml :new_document, :locals => {:action => "/users/#{params[:id]}/post_document"}
+end
+
+post '/users/:id/post_document' do
+  # Post the documentation to Amazon S3
+  if params[:file] and params[:mission_id]
+    filename = params[:file][:filename]
+    file = params[:file][:tempfile]
+
+    AWS::S3::Base.establish_connection!(:access_key_id => ENV["AWS_ACCESS_KEY"], :secret_access_key => ENV["AWS_SECRET_KEY"])
+    AWS::S3::S3Object.store(params[:id] + filename, open(file), "playgroundsociety", :access => :public_read)
+
+    Document.create(:path => filename, :description => params[:description], :created_at => Time.now, :user_id => params[:id], :mission_id => params[:mission_id])
+    flash[:notice] = "Successfully uploaded your documentation for Mission # #{params[:mission_id]}!"
+  else
+    flash[:notice] = "Error uploading documentation. Please enter a mission and attach a file."
+  end
+
+  redirect "/users/#{params[:id]}/new_document"
 end
 
 before '/admin/*' do

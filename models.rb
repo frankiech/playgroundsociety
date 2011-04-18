@@ -49,7 +49,7 @@ class Document
 
   property :id, Serial
   property :path, String
-  property :body, Text
+  property :description, Text
   property :created_at, DateTime
 
   belongs_to :user

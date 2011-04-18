@@ -1,0 +1,22 @@
+.prepend-3
+  #document-form.box.span-9
+    %h3 Add Documentation
+    .flash= flash[:notice]
+    %form(action="#{action}" enctype="multipart/form-data" method="POST")
+      %p
+        %label Select Mission:
+        %br
+        %select(name="mission_id")
+          - Mission.all.each do |mission|
+            %option(value="#{mission.id}")= "#{mission.campaign.description} #{mission.id}"
+      %p
+        %label File:
+        %br
+        %input.text(type="file" name="file")
+      %p
+        %label Description:
+        %br
+        %textarea.span-8(name="description" placeholder="Enter your documentation")
+      %p
+        %input(type="submit" value="Upload")
+        %input(type="reset")
