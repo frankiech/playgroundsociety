@@ -2,12 +2,14 @@ require 'rubygems'
 require 'sinatra'
 require 'haml'
 require 'rack-flash'
+require 'rack-ssl-enforcer'
 require 'digest/sha1'
 require 'models'
 require 'SMS'
 require 'aws/s3'
 
 use Rack::Flash
+use Rack::SslEnforcer
 enable :sessions
 
 helpers do
@@ -54,7 +56,7 @@ end
 
 get '/users/:id' do |id|
   # User profile page with documentation
-  haml :user_profile
+  haml :user_profile, :locals => {:user => User.get(id)}
 end
 
 get '/users/:id/new_document' do |id|

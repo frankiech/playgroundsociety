@@ -10,7 +10,7 @@
 
   %body
     .container
-      .navbar.push-2
+      #navbar
         %a(href="/")
           %img.span-4.nav-logo(src="/images/PlayGroundSociety.jpg")
         %a(href="/about")
@@ -20,7 +20,7 @@
         %a(href="/signup")
           %img.span-4.nav-img(src="/images/SignIn1.jpg")
 
-      #content.push-2
+      #content.span-24
         = yield
 
       #footer
