@@ -6,6 +6,7 @@
     %th Login
     %th Phone
     %th SMS
+    %th Created
     %th Edit
   - users.each do |user|
     %tr
@@ -17,6 +18,7 @@
           %textarea(rows="2" cols="5" name="message" placeholder="Write a SMS message")
           %br/
           %input(type="submit" value="Send SMS")
+      %td= user.created_at
       %td
         %a(href="/admin/users/#{user.id}/edit") Edit
         %a(href="/admin/users/#{user.id}/delete") Delete

@@ -66,9 +66,15 @@ get '/signup' do
 end
 
 post '/signup' do
-  user = User.create(:hashed_password => User.encrypt(params[:password]), 
+  welcome_sms = "Welcome to Playground Society.  We hope you'll enjoy a few moments of play each week.  The first Play Mission will be sent to you shortly!"
+  if SMS.text(welcome_sms, :to => params[:phone])
+    SMS.text(Mission.get(1).description, :to => params[:phone])
+    flash[:notice] = "Thanks for signing up! Please check your phone for a welcome message and your first play mission!"
+    user = User.create(:hashed_password => User.encrypt(params[:password]), 
                      :login => params[:login], :phone => params[:phone]);
-  flash[:notice] = "Thanks for signing up! You will recieve your first mission within 72 hours."
+  else
+    flash[:notice] = "Your phone number is invalid.  Please update your phone number."
+  end
   redirect '/signup'
 end
 
