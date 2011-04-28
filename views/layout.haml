@@ -10,17 +10,24 @@
 
   %body
     .container
-      #navbar
+      #topbar.span-16
+        - if session[:user]
+          %strong #{session[:login]}
+          - if session[:admin]
+            %a(href="/admin/users") Users Panel
+            %a(href="/admin/missions") Missions Panel
+          %a(href="/logout") Logout
+      #navbar.span-16
         %a(href="/")
           %img.span-4.nav-logo(src="/images/PlayGroundSociety.jpg")
         %a(href="/about")
           %img.span-4.nav-img(src="/images/About1.jpg")
         %a(href="/play")
           %img.span-4.nav-img(src="/images/PlayMissions1.jpg")
-        %a(href="/signup")
-          %img.span-4.nav-img(src="/images/SignIn1.jpg")
+        %a(href="/account")
+          %img.span-4.last.nav-img(src="/images/SignIn1.jpg")
 
-      #content.span-24
+      #content.span-16
         = yield
 
       #footer

@@ -7,12 +7,27 @@ class User
   include DataMapper::Resource
 
   property :id, Serial
-  property :username, String
-  property :password_hash, String
-  property :last_mission, Integer
+  property :login, String
+  property :hashed_password, String
+  property :email, String
   property :phone, String
+  property :created_at, DateTime, :default => DateTime.now
+  property :admin, Boolean, :default => false
+  property :active, Boolean, :default => true
 
   has n, :documents
+
+  def self.encrypt(pass)
+    Digest::SHA1.hexdigest(pass)
+  end
+
+  def self.authenticate(login, pass)
+    u = User.first(:login => login)
+    return nil if u.nil?
+    return true if User.encrypt(pass) == u.hashed_password
+    nil
+  end
+
 end
 
 class Mission

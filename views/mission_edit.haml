@@ -1,8 +1,7 @@
-.span-16
-  %h2.prepend-4= "Update Mission #{mission.id}"
-  %form.push-4(action="#{action}" method="POST")
-    %textarea.span-8(name="description")= mission.description
-    %br
-    %input(type="submit" value="Update Mission")
-    %input(type="reset")
+%h2.prepend-4= "Update Mission #{mission.id}"
+%form.push-4(action="#{action}" method="POST")
+  %textarea.span-8(name="description")= mission.description
+  %br
+  %input(type="submit" value="Update Mission")
+  %input(type="reset")
 

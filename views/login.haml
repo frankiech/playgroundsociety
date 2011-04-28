@@ -1,6 +1,6 @@
 .prepend-3
-  #signup-form.box.span-9
-    %h3 Sign Up
+  #login-form.box.span-9
+    %h3 Log In
     .flash= flash[:notice]
     %form(action="#{action}" method="POST")
       %p
@@ -14,9 +14,8 @@
         %input.text(type="password" name="password")
         %br
       %p
-        %label Phone:
-        %br
-        %input.text(type="text" name="phone")
-        %br
-      %p
-        %input(type="submit" value="Join")
+        %input(type="submit" value="Log In") 
+        or 
+        %a(href='/signup') sign up
+
+

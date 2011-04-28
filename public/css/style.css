@@ -1,3 +1,7 @@
 .flash {
   background-color: lightyellow;
 }
+
+#topbar {
+  text-align: right;
+}

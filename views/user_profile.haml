@@ -1,4 +1,4 @@
-.ps-profile.span-16
+.ps-profile
   %hr
   .ps-profile-documentation.span-11.colborder
     %h3 Documentation
@@ -14,8 +14,8 @@
     - else
       %p
         No documentation yet.
-  .ps-profile-sidebar.span-3.last
-    %h3= "#{user.username}"
-    -# %h3= "#{user.username}'s Profile"
+  .ps-profile-sidebar.span-4.last
+    %h3= "#{user.login}"
+    %hr
     %p
-      Your bio goes here.
+      %a(href="/account/new_document") Add Documentation
