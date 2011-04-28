@@ -16,6 +16,7 @@ class User
   property :active, Boolean, :default => true
 
   has n, :documents
+  has n, :messages
 
   def self.encrypt(pass)
     Digest::SHA1.hexdigest(pass)
@@ -30,6 +31,18 @@ class User
 
 end
 
+class Message
+  include DataMapper::Resource
+
+  property :id, Serial
+  property :message, String
+  property :sent, Boolean, :default => true
+  property :time_sent, DateTime, :default => DateTime.now
+
+  has n, :missions, :through => Resource
+  belongs_to :user
+end
+
 class Mission
   include DataMapper::Resource
 
@@ -37,6 +50,7 @@ class Mission
   property :description, Text
 
   has n, :categories, :through => Resource
+  has n, :messages, :through => Resource
   has n, :documents
   belongs_to :campaign
 end

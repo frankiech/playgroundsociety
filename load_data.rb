@@ -41,4 +41,6 @@ def load_all
   load_missions
 end
 
+load_all
+
 
