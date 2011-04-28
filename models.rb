@@ -63,7 +63,7 @@ class Document
   include DataMapper::Resource
 
   property :id, Serial
-  property :path, String
+  property :path, Text
   property :description, Text
   property :created_at, DateTime
 
