@@ -22,7 +22,7 @@
         %form(action="/admin/users/#{user.id}/sendsms" method="POST")
           -# %textarea(rows="2" cols="5" name="message" placeholder="Write a SMS message")
           %select(name="mission_id")
-            - Mission.all.each do |mission|
+            - Mission.all(:id.lte => user.last_mission + 1).each do |mission|
               - if mission.id == user.last_mission + 1
                 %option(value="#{mission.id}" selected)= "#{mission.campaign.description} #{mission.id}"
               - else

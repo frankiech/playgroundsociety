@@ -72,6 +72,7 @@ post '/signup' do
 end
 
 get '/login' do
+  redirect '/account' if authorized?
   haml :login, :locals => {:action => "/login"}
 end
 
@@ -191,14 +192,17 @@ get '/admin/users/:id/delete' do |id|
 end
 
 post '/admin/users/:id/sendsms' do |id|
-  msg = Mission.get(params[:mission_id]).description
-  phone = User.get(id).phone
+  mission_id = params[:mission_id]
+  msg = Mission.get(mission_id).description
+  user = User.get(id)
+  phone = user.phone
 
   if msg.strip == ""
     flash[:notice] = "Message was blank; Nothing was sent"
   else
     if SMS.text(msg, :to => phone) then
       flash[:notice] = "Sent message '#{msg}' to #{phone}!" 
+      user.update(:last_mission => mission_id)
     else
       flash[:notice] = "Error sending message '#{msg}' to #{phone}."
     end
