@@ -7,7 +7,7 @@
         %label Select Mission:
         %br
         %select(name="mission_id")
-          - Mission.all.each do |mission|
+          - missions.each do |mission|
             %option(value="#{mission.id}")= "#{mission.campaign.description} #{mission.id}"
       %p
         %label File:

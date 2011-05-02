@@ -109,7 +109,7 @@ end
 
 get '/account/new_document' do
   # Form to post a file
-  haml :new_document, :locals => {:action => "/account/post_document"}
+  haml :new_document, :locals => {:action => "/account/post_document", :missions => Mission.all(:id.lte => session[:last_mission])}
 end
 
 post '/account/post_document' do
@@ -201,11 +201,14 @@ post '/admin/users/:id/sendsms' do |id|
     flash[:notice] = "Message was blank; Nothing was sent"
   else
     if SMS.text(msg, :to => phone) then
-      flash[:notice] = "Sent message '#{msg}' to #{phone}!" 
       user.update(:last_mission => mission_id)
+      Message.create(:message => msg, :user_id => user.id)
+      flash[:notice] = "Sent message '#{msg}' to #{phone}!" 
     else
       flash[:notice] = "Error sending message '#{msg}' to #{phone}."
     end
   end
   redirect '/admin/users'
 end
+
+
