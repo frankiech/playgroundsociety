@@ -43,7 +43,6 @@ class Message
   property :sent, Boolean, :default => true
   property :time_sent, DateTime, :default => DateTime.now
 
-  has n, :missions, :through => Resource
   belongs_to :user
 end
 
