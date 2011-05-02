@@ -8,7 +8,10 @@
         %br
         %select(name="mission_id")
           - missions.each do |mission|
-            %option(value="#{mission.id}")= "#{mission.campaign.description} #{mission.id}"
+            - if mission.id == User.get(session[:user_id]).last_mission
+              %option(value="#{mission.id}" selected)= "#{mission.campaign.description} #{mission.id}"
+            - else
+              %option(value="#{mission.id}")= "#{mission.campaign.description} #{mission.id}"
       %p
         %label File:
         %br
