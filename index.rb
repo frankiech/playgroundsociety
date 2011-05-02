@@ -231,7 +231,7 @@ post '/admin/users/:id/sendsms' do |id|
     flash[:notice] = "Message was blank; Nothing was sent"
   else
     if SMS.text(msg, :to => phone) then
-      user.update(:last_mission => [mission_id, user.last_mission].max)
+      user.update(:last_mission => [mission_id.to_i, user.last_mission].max)
       # Message.create(:message => msg, :user_id => user.id, :sent => true)
       flash[:notice] = "Sent message '#{msg}' to #{phone}!" 
     else
