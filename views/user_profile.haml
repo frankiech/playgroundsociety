@@ -10,7 +10,8 @@
           %p
             %strong Description: 
             #{doc.description}
-          %a(href="/account/delete_document/#{doc.id}") Delete
+          - if private
+            %a(href="/account/delete_document/#{doc.id}") Delete
           .clear
         %hr
     - else
@@ -20,4 +21,20 @@
     %h3= "#{user.login}"
     %hr
     %p
-      %a(href="/account/new_document") Add Documentation
+      %label Name: 
+      %br
+      #{user.name}
+    %p
+      %label E-mail:
+      %br
+      #{user.email}
+    %p
+      %label Location:
+      %br
+      #{user.location}
+    %hr
+    - if private
+      %p
+        %a(href="/account/new_document") Add Documentation
+        %br
+        %a(href="/account/update_profile") Update Profile

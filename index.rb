@@ -103,7 +103,7 @@ end
 ### User Account Pages
 get '/account' do
   redirect '/login' unless authorized?
-  haml :user_profile, :locals => {:user => User.get(session[:user_id])}
+  haml :user_profile, :locals => {:user => User.get(session[:user_id]), :private => true}
 end
 
 before '/account/*' do
@@ -120,6 +120,16 @@ get '/account/delete_document/:id' do |id|
     flash[:notice] = "Could not delete this document."
     redirect '/account'
   end
+end
+
+get '/account/update_profile' do
+  haml :user_edit, :locals => {:user => User.get(session[:user_id]), :action => "/account/update"}
+end
+
+post '/account/update' do
+  user = User.get(session[:user_id])
+  user.update params
+  redirect '/account'
 end
 
 get '/account/new_document' do
@@ -143,6 +153,15 @@ post '/account/post_document' do
   end
 
   redirect "/account/new_document"
+end
+
+### User Pages
+before '/users/*' do
+  authorize!
+end
+
+get '/users/:id' do |id|
+  haml :user_profile, :locals => {:user => User.get(id), :private => false}
 end
 
 ### Mission Pages
@@ -183,10 +202,6 @@ end
 
 get '/admin/users' do
   haml :users_list, :locals => {:users => User.all}
-end
-
-get '/admin/users/:id' do |id|
-  haml :user_profile, :locals => {:user => User.get(id)}
 end
 
 get '/admin/users/:id/edit' do |id|

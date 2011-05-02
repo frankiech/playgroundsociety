@@ -1,16 +1,25 @@
-%h2.prepend-6= "Update User #{user.id}"
+%h2.prepend-6= "Update Profile"
 %form.push-6(action="#{action}" method="POST")
   %label Username:
   %br
   %input(type="text" name="login" value="#{user.login}")
   %br
 
-  %label Phone:
+  %label Name:
   %br
-  %input(type="text" name="phone" value="#{user.phone}")
+  %input(type="text" name="name" value="#{user.name}")
+  %br
+
+
+  %label E-mail:
+  %br
+  %input(type="text" name="email" value="#{user.email}")
+  %br
+
+  %label Location:
+  %br
+  %input(type="text" name="location" value="#{user.location}")
   %br
 
   %br
   %input(type="submit" value="Update User")
-  %form(action="/users/#{user.id}/destroy" method="POST")
-    %input(type="submit" value="Delete")

@@ -10,7 +10,7 @@
             #{doc.description}
           %p
             %strong User: 
-            #{doc.user.login}
+            %a(href="/users/#{doc.user.id}") #{doc.user.login}
         .clear
         %br
         %hr

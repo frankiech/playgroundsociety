@@ -9,12 +9,14 @@ class User
   property :id, Serial
   property :login, String
   property :hashed_password, String
-  property :email, String
   property :phone, String
   property :created_at, DateTime, :default => DateTime.now
   property :admin, Boolean, :default => false
   property :active, Boolean, :default => true
   property :last_mission, Integer, :default => 1
+  property :name, String
+  property :email, String
+  property :location, String
 
   has n, :documents
   has n, :messages
