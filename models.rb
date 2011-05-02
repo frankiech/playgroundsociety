@@ -37,6 +37,7 @@ class Message
 
   property :id, Serial
   property :message, String
+  property :comment, String
   property :sent, Boolean, :default => true
   property :time_sent, DateTime, :default => DateTime.now
 

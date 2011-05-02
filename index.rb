@@ -213,7 +213,7 @@ post '/admin/users/:id/sendsms' do |id|
     flash[:notice] = "Message was blank; Nothing was sent"
   else
     if SMS.text(msg, :to => phone) then
-      user.update(:last_mission => mission_id)
+      user.update(:last_mission => [mission_id, user.last_mission].max)
       Message.create(:message => msg, :user_id => user.id)
       flash[:notice] = "Sent message '#{msg}' to #{phone}!" 
     else
@@ -224,3 +224,17 @@ post '/admin/users/:id/sendsms' do |id|
 end
 
 
+def send_all_sms
+  User.all.each do |user|
+    msg = Mission.get(user.last_mission + 1).description
+    phone = user.phone
+    if SMS.text(msg, :to => phone) then
+      user.update(:last_mission => [mission_id, user.last_mission].max)
+      comment = "Sent message '#{msg}' to #{phone}!"
+      Message.create(:message => msg, :user_id => user.id, :comment => comment, :sent => true)
+    else
+      comment = "Error sending message '#{msg}' to #{phone}."
+      Message.create(:message => msg, :user_id => user.id, :comment => comment, :sent => false)
+    end
+  end
+end
