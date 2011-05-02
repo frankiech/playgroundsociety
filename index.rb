@@ -66,8 +66,8 @@ post '/signup' do
     flash[:notice] = "Thanks for signing up! Please check your phone for a welcome message and your first play mission!"
     user = User.create(:hashed_password => User.encrypt(params[:password]), 
                      :login => params[:login], :phone => params[:phone]);
-    Message.create(:message => welcome_sms, :user_id => user.id, :sent => true)
-    Message.create(:message => message, :user_id => user.id, :sent => true)
+    # Message.create(:message => welcome_sms, :user_id => user.id, :sent => true)
+    # Message.create(:message => message, :user_id => user.id, :sent => true)
   else
     flash[:notice] = "Your phone number is invalid.  Please update your phone number."
   end
