@@ -1,3 +1,7 @@
+body {
+  font-family: "Arial Rounded MT Bold"
+}
+
 .flash {
   background-color: lightyellow;
 }
