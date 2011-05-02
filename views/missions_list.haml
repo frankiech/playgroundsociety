@@ -2,11 +2,13 @@
 %table
   %tr
     %th id
+    %th Campaign
     %th Description
     %th Actions
   - missions.each do |mission|
     %tr
       %td= mission.id
+      %td= mission.campaign.description
       %td= mission.description
       %td
         %a(href="/admin/missions/#{mission.id}/edit") Edit

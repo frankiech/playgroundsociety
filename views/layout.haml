@@ -19,13 +19,14 @@
           %a(href="/logout") Logout
       #navbar.span-16
         %a(href="/")
-          %img.span-4.nav-logo(src="/images/PlayGroundSociety.jpg")
-        %a(href="/about")
-          %img.span-4.nav-img(src="/images/About1.jpg")
-        %a(href="/play")
-          %img.span-4.nav-img(src="/images/PlayMissions1.jpg")
-        %a(href="/account")
-          %img.span-4.last.nav-img(src="/images/SignIn1.jpg")
+          %img.span-4.first.nav-logo(src="/images/PlayGroundSociety.jpg")
+        #navimgs.span-12.last
+          %a(href="/about")
+            %img.span-3.nav-img(src="/images/NavAbout.jpg")
+          %a(href="/play")
+            %img.span-3.nav-img(src="/images/NavPlayMissions.jpg")
+          %a(href="/account")
+            %img.span-3.last.nav-img(src="/images/NavProfile.jpg")
 
       #content.span-16
         = yield
