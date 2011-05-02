@@ -132,7 +132,7 @@ end
 ### Mission Pages
 get '/missions' do
   redirect '/play' unless authorized?
-  haml :missions_list, :locals => {:missions => Mission.all(:id.lte => User.get(session[:user_id]).last_mission), :editable => false}
+  haml :missions_list, :locals => {:missions => Mission.all(:id.lte => session[:last_mission]), :editable => false}
 end
 
 before '/missions/*' do
@@ -141,6 +141,7 @@ end
 
 get '/missions/:id' do |id|
   # Show a mission with documentation
+  redirect '/missions' if id.to_i > session[:last_mission]
   haml :mission_profile, :locals => {:mission => Mission.get(id)}
 end
 
@@ -151,7 +152,7 @@ before '/admin/*' do
 end
 
 get '/admin/missions' do
-  haml :missions_list, :locals => {:missions => Mission.all}
+  haml :missions_list, :locals => {:missions => Mission.all, :editable => true}
 end
 
 get '/admin/missions/:id/edit' do |id|
@@ -190,7 +191,7 @@ get '/admin/users/:id/delete' do |id|
 end
 
 post '/admin/users/:id/sendsms' do |id|
-  msg = params[:message]
+  msg = Mission.get(params[:mission_id]).description
   phone = User.get(id).phone
 
   if msg.strip == ""

@@ -6,21 +6,29 @@
     %th Created
     %th Login
     %th Phone
-    %th SMS
     %th Active?
-    %th Edit
+    %th Last Mission
+    %th SMS
+    %th Actions
   - users.each do |user|
     %tr
       %td= user.id
-      %td= user.created_at
+      %td= user.created_at.strftime('%m/%d/%Y')
       %td= user.login
       %td= user.phone
+      %td= user.active
+      %td= user.last_mission
       %td
         %form(action="/admin/users/#{user.id}/sendsms" method="POST")
-          %textarea(rows="2" cols="5" name="message" placeholder="Write a SMS message")
+          -# %textarea(rows="2" cols="5" name="message" placeholder="Write a SMS message")
+          %select(name="mission_id")
+            - Mission.all.each do |mission|
+              - if mission.id == user.last_mission + 1
+                %option(value="#{mission.id}" selected)= "#{mission.campaign.description} #{mission.id}"
+              - else
+                %option(value="#{mission.id}")= "#{mission.campaign.description} #{mission.id}"
           %br/
           %input(type="submit" value="Send SMS")
-      %td= user.active
       %td
         %a(href="/admin/users/#{user.id}/edit") Edit
         %a(href="/admin/users/#{user.id}/delete") Delete
