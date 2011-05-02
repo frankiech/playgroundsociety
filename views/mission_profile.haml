@@ -12,6 +12,8 @@
             %strong User: 
             #{doc.user.login}
         .clear
+        %br
+        %hr
     - else
       %p
         No documentation yet.
@@ -19,3 +21,4 @@
     %h3= "#{mission.campaign.description} #{mission.id}"
     %hr
     %p= mission.description
+
