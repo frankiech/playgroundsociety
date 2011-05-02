@@ -1,8 +1,8 @@
 .ps-profile
   %hr
   .ps-profile-documentation.span-11.colborder
-    %h3 Documentation
     .flash= flash[:notice]
+    %h3 Documentation
     - if user.documents.count > 0
       - user.documents.all.each do |doc|
         %p
