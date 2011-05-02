@@ -17,7 +17,10 @@
       %td= user.login
       %td= user.phone
       %td= user.active
-      %td= user.last_mission
+      %td
+        =user.last_mission
+        %br
+        Last SMS sent: #{Message.all(:user_id => user.id, :sent => true).max.time_sent.strftime('%m/%d/%Y')}
       %td
         %form(action="/admin/users/#{user.id}/sendsms" method="POST")
           -# %textarea(rows="2" cols="5" name="message" placeholder="Write a SMS message")
@@ -27,7 +30,7 @@
                 %option(value="#{mission.id}" selected)= "#{mission.campaign.description} #{mission.id}"
               - else
                 %option(value="#{mission.id}")= "#{mission.campaign.description} #{mission.id}"
-          %br/
+          %br
           %input(type="submit" value="Send SMS")
       %td
         %a(href="/admin/users/#{user.id}/edit") Edit
