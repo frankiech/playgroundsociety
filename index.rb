@@ -107,6 +107,18 @@ before '/account/*' do
   authorize!
 end
 
+get '/account/delete_document/:id' do |id|
+  doc = Document.get(id)
+  if doc.user_id = session[:user_id]
+    doc.destroy
+    flash[:notice] = "Deleted document"
+    redirect '/account'
+  else
+    flash[:notice] = "Could not delete this document."
+    redirect '/account'
+  end
+end
+
 get '/account/new_document' do
   # Form to post a file
   haml :new_document, :locals => {:action => "/account/post_document", :missions => Mission.all(:id.lte => session[:last_mission])}

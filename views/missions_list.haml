@@ -8,7 +8,7 @@
     %th id
     %th Campaign
     %th Description
-    %th Actions
+    %th Documentation
   - missions.each do |mission|
     %tr
       %td= mission.id
@@ -16,8 +16,9 @@
       %td= mission.description
       - if editable
         %td
-          %a(href="/admin/missions/#{mission.id}/edit") Edit
-          %a(href="/admin/missions/#{mission.id}/destroy") Delete
+          %a(href="/admin/missions/#{mission.id}/edit") Edit Mission
+          %br
+          %a(href="/admin/missions/#{mission.id}/destroy") Delete Mission
       - else
         %td
           %a(href="/missions/#{mission.id}") View
