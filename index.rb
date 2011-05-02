@@ -61,10 +61,13 @@ end
 post '/signup' do
   welcome_sms = "Welcome to Playground Society.  We hope you'll enjoy a few moments of play each week.  The first Play Mission will be sent to you shortly!"
   if SMS.text(welcome_sms, :to => params[:phone])
-    SMS.text(Mission.get(1).description, :to => params[:phone])
+    message = Mission.get(1).description
+    SMS.text(message, :to => params[:phone])
     flash[:notice] = "Thanks for signing up! Please check your phone for a welcome message and your first play mission!"
     user = User.create(:hashed_password => User.encrypt(params[:password]), 
                      :login => params[:login], :phone => params[:phone]);
+    Message.create(:message => welcome_sms, :user_id => user.id, :sent => true)
+    Message.create(:message => message, :user_id => user.id, :sent => true)
   else
     flash[:notice] = "Your phone number is invalid.  Please update your phone number."
   end
@@ -214,27 +217,38 @@ post '/admin/users/:id/sendsms' do |id|
   else
     if SMS.text(msg, :to => phone) then
       user.update(:last_mission => [mission_id, user.last_mission].max)
-      Message.create(:message => msg, :user_id => user.id)
+      Message.create(:message => msg, :user_id => user.id, :sent => true)
       flash[:notice] = "Sent message '#{msg}' to #{phone}!" 
     else
       flash[:notice] = "Error sending message '#{msg}' to #{phone}."
+      Message.create(:message => msg, :user_id => user.id, :sent => false)
     end
   end
   redirect '/admin/users'
 end
 
+get '/admin/send_all' do |id|
+  flash[:notice] = send_all_sms
+  redirect '/admin/users'
+end
 
 def send_all_sms
+  successes = 0
+  fails = 0
   User.all.each do |user|
-    msg = Mission.get(user.last_mission + 1).description
+    mission_id = user.last_mission + 1
+    msg = Mission.get(mission_id).description
     phone = user.phone
     if SMS.text(msg, :to => phone) then
-      user.update(:last_mission => [mission_id, user.last_mission].max)
-      comment = "Sent message '#{msg}' to #{phone}!"
+      user.update(:last_mission => mission_id)
+      comment = "BULK: Sent message to #{phone}!"
       Message.create(:message => msg, :user_id => user.id, :comment => comment, :sent => true)
+      successes += 1
     else
-      comment = "Error sending message '#{msg}' to #{phone}."
+      comment = "BULK: Error sending to #{phone}."
       Message.create(:message => msg, :user_id => user.id, :comment => comment, :sent => false)
+      fails += 1
     end
   end
+  "Successes: #{successes}, Fails: #{fails}"
 end
