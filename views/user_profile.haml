@@ -1,7 +1,7 @@
 .ps-profile
   .ps-profile-documentation.span-11.colborder
     .flash= flash[:notice]
-    %h2 My Playground
+    %h2 #{user.login}'s playground
     - if user.documents.count > 0
       - user.documents.all.each do |doc|
         %p
