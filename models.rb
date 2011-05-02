@@ -14,6 +14,7 @@ class User
   property :created_at, DateTime, :default => DateTime.now
   property :admin, Boolean, :default => false
   property :active, Boolean, :default => true
+  property :last_mission, Integer, :default => 1
 
   has n, :documents
   has n, :messages

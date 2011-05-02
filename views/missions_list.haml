@@ -10,6 +10,10 @@
       %td= mission.id
       %td= mission.campaign.description
       %td= mission.description
-      %td
-        %a(href="/admin/missions/#{mission.id}/edit") Edit
-        %a(href="/admin/missions/#{mission.id}/destroy") Delete
+      - if editable
+        %td
+          %a(href="/admin/missions/#{mission.id}/edit") Edit
+          %a(href="/admin/missions/#{mission.id}/destroy") Delete
+      - else
+        %td
+          %a(href="/missions/#{mission.id}") View

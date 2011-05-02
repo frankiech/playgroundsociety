@@ -53,13 +53,6 @@ get '/about' do
   haml :about
 end
 
-### Public Profile Pages
-get '/missions/:id' do |id|
-  # Show a mission with documentation
-  haml :mission_profile
-end
-
-
 ### User Management
 get '/signup' do
   haml :signup, :locals => {:action => "/signup"}
@@ -87,6 +80,7 @@ post '/login' do
     flash[:notice] = "Login successful."
     session[:login] = params[:login]
     session[:user_id] = User.first(:login => params[:login]).id
+    session[:last_mission] = User.get(session[:user_id]).last_mission
     session[:admin] = User.get(session[:user_id]).admin
     redirect "/account"
   else
@@ -133,6 +127,21 @@ post '/account/post_document' do
   end
 
   redirect "/account/new_document"
+end
+
+### Mission Pages
+get '/missions' do
+  redirect '/play' unless authorized?
+  haml :missions_list, :locals => {:missions => Mission.all(:id.lte => User.get(session[:user_id]).last_mission), :editable => false}
+end
+
+before '/missions/*' do
+  authorize!
+end
+
+get '/missions/:id' do |id|
+  # Show a mission with documentation
+  haml :mission_profile, :locals => {:mission => Mission.get(id)}
 end
 
 

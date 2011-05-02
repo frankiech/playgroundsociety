@@ -1,0 +1,22 @@
+.ps-profile
+  %hr
+  .ps-profile-documentation.span-11.colborder
+    %h3 Documentation
+    - if mission.documents.count > 0
+      - mission.documents.all.each do |doc|
+        %p
+          %img.span-3(src="http://playgroundsociety.s3.amazonaws.com/#{doc.user.id}#{doc.path}")
+          %p
+            %strong Description: 
+            #{doc.description}
+          %p
+            %strong User: 
+            #{doc.user.login}
+        .clear
+    - else
+      %p
+        No documentation yet.
+  .ps-profile-sidebar.span-4.last
+    %h3= "#{mission.campaign.description} #{mission.id}"
+    %hr
+    %p= mission.description
