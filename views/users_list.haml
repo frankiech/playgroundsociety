@@ -20,8 +20,8 @@
       %td
         =user.last_mission
         %br
-        - if last_msg = Message.all(:user_id => user.id, :sent => true).max.time_sent.strftime('%m/%d/%Y')
-          Last SMS sent: #{last_msg}
+        - if last_msg = Message.all(:user_id => user.id, :sent => true).max
+          Last SMS sent: #{last_msg.time_sent.strftime('%m/%d/%Y')}
       %td
         %form(action="/admin/users/#{user.id}/sendsms" method="POST")
           -# %textarea(rows="2" cols="5" name="message" placeholder="Write a SMS message")
