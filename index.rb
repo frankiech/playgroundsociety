@@ -232,7 +232,7 @@ post '/admin/users/:id/sendsms' do |id|
   else
     if SMS.text(msg, :to => phone) then
       user.update(:last_mission => [mission_id.to_i, user.last_mission].max)
-      # Message.create(:message => msg, :user_id => user.id, :sent => true)
+      Message.create(:message => msg, :user_id => user.id, :sent => true)
       flash[:notice] = "Sent message '#{msg}' to #{phone}!" 
     else
       flash[:notice] = "Error sending message '#{msg}' to #{phone}."
