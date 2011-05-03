@@ -1,15 +1,17 @@
 .prepend-3
   #signup-form.box.span-9
     %h3 sign up
+    %p
+      Playground Society is free. We will send you 2-3 text messages per week that will bring more play into your life.
     .flash= flash[:notice]
     %form(action="#{action}" method="POST")
       %p
-        %label Login:
+        %label Choose a username (this will be public):
         %br
         %input.text(type="text" name="login")
         %br
       %p
-        %label Password:
+        %label Choose a password:
         %br
         %input.text(type="password" name="password")
         %br
