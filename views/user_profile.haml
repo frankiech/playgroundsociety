@@ -2,6 +2,10 @@
   .ps-profile-documentation.span-11.colborder
     .flash= flash[:notice]
     %h2 #{user.login}'s playground
+    %p
+      - if private
+        %a(href="/account/new_document") Add Play Documentation
+    %hr
     - if user.documents.count > 0
       - user.documents.all.each do |doc|
         %p
@@ -35,6 +39,4 @@
     %hr
     - if private
       %p
-        %a(href="/account/new_document") Add Documentation
-        %br
         %a(href="/account/update_profile") Update Profile
