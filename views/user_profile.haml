@@ -33,10 +33,16 @@
       %br
       #{user.email}
     %p
+      %label Twitter:
+      %br
+      #{user.twitter}
+    %p
       %label Location:
       %br
       #{user.location}
     %hr
+    %p
+      %i All profiles are public. Adding information is optional.
     - if private
       %p
         %a(href="/account/update_profile") Update Profile

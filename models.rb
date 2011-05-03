@@ -16,6 +16,7 @@ class User
   property :last_mission, Integer, :default => 1
   property :name, String
   property :email, String
+  property :twitter, String
   property :location, String
 
   has n, :documents
