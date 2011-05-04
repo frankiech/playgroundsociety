@@ -3,14 +3,14 @@
   As you receive Play Missions, they become unlocked and you can see documentation for each mission by the entire community of players. 
 %table
   %tr
-    %th id
-    %th Campaign
+    %th #
+    -# %th Campaign
     %th Description
     %th Documentation
   - missions.each do |mission|
     %tr
       %td= mission.id
-      %td= mission.campaign.description
+      -# %td= mission.campaign.description
       %td= mission.description
       - if editable
         %td

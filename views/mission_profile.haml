@@ -6,10 +6,9 @@
         %p
           %img.span-3(src="http://playgroundsociety.s3.amazonaws.com/#{doc.user.id}#{doc.path}")
           %p
-            %strong Description: 
             #{doc.description}
           %p
-            %strong User: 
+            %strong By: 
             %a(href="/users/#{doc.user.id}") #{doc.user.login}
         .clear
         %br
