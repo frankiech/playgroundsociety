@@ -1,3 +1,13 @@
+%script(type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js")
+%script(type="text/javascript" src="/js/jquery.cycle.all.latest.js")
+
+:javascript
+  $(document).ready(function() {
+    $('.slideshow').cycle({
+      fx: 'fade'
+    });
+  });
+
 .slideshow.span-16
   %img.span-16(src="/images/PlaygroundScroll1.png")
   %img.span-16(src="/images/PlaygroundScroll2.png")
