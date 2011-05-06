@@ -12,7 +12,6 @@
           %h4= "#{doc.mission.campaign.description} #{doc.mission.id}"
           %img.span-3(src="http://playgroundsociety.s3.amazonaws.com/#{user.id}#{doc.path}")
           %p
-            %strong Description: 
             #{doc.description}
           - if private
             %a(href="/account/delete_document/#{doc.id}") Delete

@@ -8,6 +8,7 @@ gem "haml"
 gem "rack-flash"
 gem "rack-ssl-enforcer"
 gem 'aws-s3', :require => "aws/s3"
+gem "mini_magick"
 
 group :development do
   gem 'dm-sqlite-adapter'

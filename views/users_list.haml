@@ -34,6 +34,7 @@
           %br
           %input(type="submit" value="Send SMS")
       %td
+        %a(href="/users/#{user.id}") View
         %a(href="/admin/users/#{user.id}/edit") Edit
         %a(href="/admin/users/#{user.id}/delete") Delete
 %a(href='/admin/send_all') Send all SMS
