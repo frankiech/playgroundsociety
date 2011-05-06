@@ -1,6 +1,10 @@
 %h2 play missions
 %p
   As you receive Play Missions, they become unlocked and you can see documentation for each mission by the entire community of players. 
+- if editable
+  %p
+    .flash= flash[:notice]
+    %a(href="/admin/missions/add") Add a Play Mission
 %table
   %tr
     %th #
@@ -17,6 +21,7 @@
           %a(href="/admin/missions/#{mission.id}/edit") Edit Mission
           %br
           %a(href="/admin/missions/#{mission.id}/destroy") Delete Mission
+          %br
       - else
         %td
           %a(href="/missions/#{mission.id}") View

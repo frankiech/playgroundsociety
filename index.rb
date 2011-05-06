@@ -190,6 +190,12 @@ get '/admin/missions' do
   haml :missions_list, :locals => {:missions => Mission.all, :editable => true}
 end
 
+get '/admin/missions/add' do |id|
+  m = Mission.create(:description => "Placeholder", :campaign_id => 1)
+  flash[:notice] = "Added Mission #{m.id}"
+  redirect '/admin/missions'
+end
+
 get '/admin/missions/:id/edit' do |id|
   haml :mission_edit, :locals => {:mission => Mission.get(id), :action => "/admin/missions/#{id}/update"}
 end
