@@ -128,7 +128,11 @@ end
 
 post '/account/update' do
   user = User.get(session[:user_id])
+  params['hashed_password'] = user.hashed_password
+  params['hashed_password'] = User.encrypt(params['password']) if params['password']
+  params.delete 'password'
   user.update params
+  flash[:notice] = "Profile updated."
   redirect '/account'
 end
 
@@ -243,7 +247,11 @@ end
 
 post '/admin/users/:id/update' do |id|
   user = User.get(id)
+  params['hashed_password'] = user.hashed_password
+  params['hashed_password'] = User.encrypt(params['password']) if params['password']
+  params.delete 'password'
   user.update params
+  flash[:notice] = "User #{user.login} updated."
   redirect '/admin/users'
 end
 

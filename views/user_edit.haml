@@ -1,4 +1,4 @@
-%h2.prepend-6= "update profile"
+%h2.prepend-6 update profile
 %form.push-6(action="#{action}" method="POST")
   %label Username:
   %br
@@ -25,5 +25,18 @@
   %input(type="text" name="location" value="#{user.location}")
   %br
 
+  - if admin?
+    %label Password:
+    %br
+    %input(type="text" name="password" placeholder="*******")
+    %br
+
+    %label Phone:
+    %br
+    = user.phone
+    %br
+
   %br
-  %input(type="submit" value="Update User")
+  %input(type="submit" value="Save")
+
+
