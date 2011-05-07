@@ -16,8 +16,7 @@ enable :sessions
 helpers do
   def protected!
     unless admin?
-      flash[:notice] = "Please log in with an admin account."
-      redirect '/login'
+      redirect '/'
     end
   end
 
@@ -156,10 +155,12 @@ post '/account/document/update/:id' do |id|
     AWS::S3::S3Object.store(doc.user_id.to_s + filename, open(file), "playgroundsociety", :access => :public_read)
 
     Document.update(:path => filename, :description => params[:description], :created_at => Time.now, :user_id => doc.user_id, :mission_id => params[:mission_id])
-    flash[:notice] = "Successfully uploaded your documentation for Mission # #{params[:mission_id]}!"
+    msg = "Successfully updated document and uploaded your new file."
   else
-    flash[:notice] = "Error uploading documentation. Please enter a mission and attach a file."
+    msg = "Updated document but could not upload file."
   end
+  doc.update params
+  flash[:notice] = msg
   redirect "/account/document/edit/#{id}"
 end
 
