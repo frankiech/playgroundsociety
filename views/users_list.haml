@@ -1,5 +1,8 @@
 %h2 users
 .flash= flash[:notice]
+%p
+  There are #{users.count} users.
+  %a(href='/admin/send_all') Send all SMS
 %table
   %tr
     %th id
@@ -37,4 +40,3 @@
         %a(href="/users/#{user.id}") View
         %a(href="/admin/users/#{user.id}/edit") Edit
         %a(href="/admin/users/#{user.id}/delete") Delete
-%a(href='/admin/send_all') Send all SMS
