@@ -4,7 +4,7 @@
     %h2 #{user.login}'s playground
     %p
       - if private
-        %a(href="/account/new_document") Add Play Documentation
+        %a(href="/account/document/new") Add Play Documentation
     %hr
     - if user.documents.count > 0
       - user.documents.all.each do |doc|
@@ -14,7 +14,7 @@
           %p
             #{doc.description}
           - if private
-            %a(href="/account/delete_document/#{doc.id}") Delete
+            %a(href="/account/document/delete/#{doc.id}") Delete
           .clear
         %hr
     - else

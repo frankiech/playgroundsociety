@@ -110,7 +110,7 @@ before '/account/*' do
   authorize!
 end
 
-get '/account/delete_document/:id' do |id|
+get '/account/document/delete/:id' do |id|
   doc = Document.get(id)
   if doc.user_id = session[:user_id]
     doc.destroy
@@ -132,12 +132,12 @@ post '/account/update' do
   redirect '/account'
 end
 
-get '/account/new_document' do
+get '/account/document/new' do
   # Form to post a file
-  haml :new_document, :locals => {:action => "/account/post_document", :missions => Mission.all(:id.lte => session[:last_mission])}
+  haml :document_new, :locals => {:action => "/account/document/post", :missions => Mission.all(:id.lte => session[:last_mission])}
 end
 
-post '/account/post_document' do
+post '/account/document/post' do
   # Post the documentation to Amazon S3
   if params[:file] and params[:mission_id]
     filename = params[:file][:filename]
@@ -152,7 +152,7 @@ post '/account/post_document' do
     flash[:notice] = "Error uploading documentation. Please enter a mission and attach a file."
   end
 
-  redirect "/account/new_document"
+  redirect "/account/document/new"
 end
 
 ### User Pages
