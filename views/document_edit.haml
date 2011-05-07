@@ -1,0 +1,33 @@
+.prepend-3
+  #document-form.box.span-9
+    %h3 edit documentation
+    .flash= flash[:notice]
+    -if admin?
+      %p You are overwriting the documentation for: #{doc.user.login}
+    %form(action="#{action}" enctype="multipart/form-data" method="POST")
+      %p
+        %label Select Mission:
+        %br
+        %select(name="mission_id")
+          - missions.each do |mission|
+            - if mission.id == doc.mission_id
+              %option(value="#{mission.id}" selected)= "#{mission.campaign.description} #{mission.id}"
+            - else
+              %option(value="#{mission.id}")= "#{mission.campaign.description} #{mission.id}"
+      %p
+        %label Current File:
+        %br
+        %img.span-3(src="http://playgroundsociety.s3.amazonaws.com/#{doc.user_id}#{doc.path}")
+        .clear
+      %p
+        %label New File:
+        %br
+        %input.text(type="file" name="file")
+      %p
+        %label Description:
+        %br
+        %textarea.span-8(name="description")
+          =doc.description
+      %p
+        %input(type="submit" value="Update")
+        %input(type="reset")

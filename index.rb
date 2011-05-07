@@ -132,6 +132,33 @@ post '/account/update' do
   redirect '/account'
 end
 
+get '/account/document/edit/:id' do |id|
+  doc = Document.get(id)
+  unless doc.user_id == session[:user_id] or admin?
+    flash[:notice] = "Cannot edit that document."
+    redirect '/account'
+  end
+  haml :document_edit, :locals => {:action => "/account/document/update/#{id}", :doc => doc, :missions => Mission.all(:id.lte => session[:last_mission])}
+end
+
+post '/account/document/update/:id' do |id|
+  doc = Document.get(id)
+  
+  if params[:file] and params[:mission_id]
+    filename = params[:file][:filename]
+    file = params[:file][:tempfile]
+
+    AWS::S3::Base.establish_connection!(:access_key_id => ENV["AWS_ACCESS_KEY"], :secret_access_key => ENV["AWS_SECRET_KEY"])
+    AWS::S3::S3Object.store(doc.user_id.to_s + filename, open(file), "playgroundsociety", :access => :public_read)
+
+    Document.update(:path => filename, :description => params[:description], :created_at => Time.now, :user_id => doc.user_id, :mission_id => params[:mission_id])
+    flash[:notice] = "Successfully uploaded your documentation for Mission # #{params[:mission_id]}!"
+  else
+    flash[:notice] = "Error uploading documentation. Please enter a mission and attach a file."
+  end
+  redirect "/account/document/edit/#{id}"
+end
+
 get '/account/document/new' do
   # Form to post a file
   haml :document_new, :locals => {:action => "/account/document/post", :missions => Mission.all(:id.lte => session[:last_mission])}
