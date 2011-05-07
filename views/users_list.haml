@@ -1,7 +1,8 @@
 %h2 users
 .flash= flash[:notice]
 %p
-  There are #{users.count} users.
+  There are #{users.count} users.  
+  The last user signed up on #{users.max.created_at.strftime('%m/%d/%Y at %I:%M%p')}.  
   %a(href='/admin/send_all') Send all SMS
 %table
   %tr
