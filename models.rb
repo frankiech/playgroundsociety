@@ -84,6 +84,7 @@ class Document
   property :path, String
   property :description, Text
   property :created_at, DateTime
+  property :visible, Boolean, :default => false
 
   belongs_to :user
   belongs_to :mission
