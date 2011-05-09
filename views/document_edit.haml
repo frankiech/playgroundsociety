@@ -30,4 +30,7 @@
           =doc.description
       %p
         %input(type="submit" value="Update")
-        %input(type="reset")
+      %p
+    - if admin?
+      %p
+        %a(href="/account/document/delete/#{doc.id}") Delete
