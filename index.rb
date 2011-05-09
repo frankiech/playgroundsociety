@@ -7,6 +7,7 @@ require 'digest/sha1'
 require 'models'
 require 'SMS'
 require 'aws/s3'
+require 'mini_magick'
 
 use Rack::Flash
 # use Rack::SslEnforcer
@@ -150,11 +151,13 @@ post '/account/document/update/:id' do |id|
   if params[:file] and params[:mission_id]
     filename = params[:file][:filename]
     file = params[:file][:tempfile]
+    save_file = session[:user_id].to_s + filename.gsub(" ", "")
 
     AWS::S3::Base.establish_connection!(:access_key_id => ENV["AWS_ACCESS_KEY"], :secret_access_key => ENV["AWS_SECRET_KEY"])
-    AWS::S3::S3Object.store(doc.user_id.to_s + filename, open(file), "playgroundsociety", :access => :public_read)
+    AWS::S3::S3Object.store(save_file, open(file), "playgroundsociety", :access => :public_read)
+    tn_generate_and_upload("http://playgroundsociety.s3.amazonaws.com/", save_file)
 
-    Document.update(:path => filename, :description => params[:description], :created_at => Time.now, :user_id => doc.user_id, :mission_id => params[:mission_id])
+    Document.get(id).update(:path => save_file, :description => params[:description], :created_at => Time.now, :user_id => doc.user_id, :mission_id => params[:mission_id])
     msg = "Successfully updated document and uploaded your new file."
   else
     msg = "Updated document but could not upload file."
@@ -174,11 +177,13 @@ post '/account/document/post' do
   if params[:file] and params[:mission_id]
     filename = params[:file][:filename]
     file = params[:file][:tempfile]
+    save_file = session[:user_id].to_s + filename.gsub(" ", "")
 
     AWS::S3::Base.establish_connection!(:access_key_id => ENV["AWS_ACCESS_KEY"], :secret_access_key => ENV["AWS_SECRET_KEY"])
-    AWS::S3::S3Object.store(session[:user_id].to_s + filename, open(file), "playgroundsociety", :access => :public_read)
+    AWS::S3::S3Object.store(save_file, open(file), "playgroundsociety", :access => :public_read)
+    tn_generate_and_upload("http://playgroundsociety.s3.amazonaws.com/", save_file)
 
-    Document.create(:path => filename, :description => params[:description], :created_at => Time.now, :user_id => session[:user_id], :mission_id => params[:mission_id])
+    Document.create(:path => save_file, :description => params[:description], :created_at => Time.now, :user_id => session[:user_id], :mission_id => params[:mission_id])
     flash[:notice] = "Successfully uploaded your documentation for Mission # #{params[:mission_id]}!"
   else
     flash[:notice] = "Error uploading documentation. Please enter a mission and attach a file."
@@ -289,6 +294,7 @@ get '/admin/send_all' do |id|
   redirect '/admin/users'
 end
 
+### other functions
 def send_all_sms
   successes = 0
   fails = 0
@@ -309,3 +315,57 @@ def send_all_sms
   end
   "Successes: #{successes}, Fails: #{fails}"
 end
+
+def find_stray_images
+  AWS::S3::Base.establish_connection!(:access_key_id => ENV["AWS_ACCESS_KEY"], :secret_access_key => ENV["AWS_SECRET_KEY"])
+  s3_files = AWS::S3::Bucket.objects('playgroundsociety').select{|o| o.key =~ /^[^tn\.]/}.map{|o| o.key}
+  doc_files = Document.all.map{|doc| "#{doc.user_id}#{doc.path}"}
+
+  s3_files - doc_files
+end
+
+def del_s3_files(bucket, regex, filearray)
+  AWS::S3::Base.establish_connection!(:access_key_id => ENV["AWS_ACCESS_KEY"], :secret_access_key => ENV["AWS_SECRET_KEY"])
+  filearray.each do |f|
+    AWS::S3::S3Object.delete f, bucket
+  end
+end
+
+def rename_spaced_s3_files(opts = {})
+  # default to bucket = 'playgroundsociety' and regex = /^[^tn\.]/
+  bucket = opts[:bucket] || 'playgroundsociety'
+  regex = opts[:regex] || /^[^tn\/*]/
+
+  # find and rename files with spaces to files without spaces
+  AWS::S3::Base.establish_connection!(:access_key_id => ENV["AWS_ACCESS_KEY"], :secret_access_key => ENV["AWS_SECRET_KEY"])
+  AWS::S3::Bucket.objects(bucket).select{|o| o.key =~ regex}.grep(/\s/) do |o|
+    puts "s3: renaming #{o.key} to #{o.key.gsub(" ", "")}"
+    o.rename "#{o.key.gsub(" ", "")}"
+    puts "done"
+  end
+
+  # find and rename Document paths with spaces to files without spaces
+  Document.all.select{|doc| doc.path =~ /\s/}.each do |doc| 
+    puts "document renaming #{doc.path} to #{doc.path.gsub(" ", "")}"
+    doc.update(:path => doc.path.gsub(" ", ""))
+  end
+end
+
+def tn_generate_and_upload(domain, filepath)
+  filename = filepath.split('/').last.gsub(" ", "")
+  img = MiniMagick::Image.open("#{domain}#{filepath}")
+  img.resize '110x'
+  img.write "tmp/#{filename}"
+  AWS::S3::Base.establish_connection!(:access_key_id => ENV["AWS_ACCESS_KEY"], :secret_access_key => ENV["AWS_SECRET_KEY"])
+  AWS::S3::S3Object.store("tn/#{filename}", open("tmp/#{filename}"), "playgroundsociety", :access => :public_read)
+  `rm tmp/#{filename}`
+  "#{filename} stored to tn/#{filename}"
+end
+
+def generate_thumbs
+  AWS::S3::Base.establish_connection!(:access_key_id => ENV["AWS_ACCESS_KEY"], :secret_access_key => ENV["AWS_SECRET_KEY"])
+  s3_files = AWS::S3::Bucket.objects('playgroundsociety').select{|o| o.key =~ /^[^tn\.]/}.map{|o| o.key}. each do |f|
+    puts tn_generate_and_upload("http://playgroundsociety.s3.amazonaws.com/", f)
+  end
+end
+
