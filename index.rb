@@ -160,7 +160,7 @@ post '/account/document/update/:id' do |id|
     Document.get(id).update(:path => save_file, :description => params[:description], :created_at => Time.now, :user_id => doc.user_id, :mission_id => params[:mission_id])
     msg = "Successfully updated document and uploaded your new file."
   else
-    msg = "Updated document but could not upload file."
+    msg = "Updated document but did not upload file."
   end
   doc.update params
   flash[:notice] = msg
