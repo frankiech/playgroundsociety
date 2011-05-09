@@ -151,11 +151,11 @@ post '/account/document/update/:id' do |id|
   if params[:file] and params[:mission_id]
     filename = params[:file][:filename]
     file = params[:file][:tempfile]
-    save_file = session[:user_id].to_s + filename.gsub(" ", "")
+    save_file = filename.gsub(" ", "")
 
     AWS::S3::Base.establish_connection!(:access_key_id => ENV["AWS_ACCESS_KEY"], :secret_access_key => ENV["AWS_SECRET_KEY"])
-    AWS::S3::S3Object.store(save_file, open(file), "playgroundsociety", :access => :public_read)
-    tn_generate_and_upload("http://playgroundsociety.s3.amazonaws.com/", save_file)
+    AWS::S3::S3Object.store(session[:user_id].to_s + save_file, open(file), "playgroundsociety", :access => :public_read)
+    tn_generate_and_upload("http://playgroundsociety.s3.amazonaws.com/", session[:user_id].to_s + save_file)
 
     Document.get(id).update(:path => save_file, :description => params[:description], :created_at => Time.now, :user_id => doc.user_id, :mission_id => params[:mission_id])
     msg = "Successfully updated document and uploaded your new file."
@@ -177,11 +177,11 @@ post '/account/document/post' do
   if params[:file] and params[:mission_id]
     filename = params[:file][:filename]
     file = params[:file][:tempfile]
-    save_file = session[:user_id].to_s + filename.gsub(" ", "")
+    save_file = filename.gsub(" ", "")
 
     AWS::S3::Base.establish_connection!(:access_key_id => ENV["AWS_ACCESS_KEY"], :secret_access_key => ENV["AWS_SECRET_KEY"])
-    AWS::S3::S3Object.store(save_file, open(file), "playgroundsociety", :access => :public_read)
-    tn_generate_and_upload("http://playgroundsociety.s3.amazonaws.com/", save_file)
+    AWS::S3::S3Object.store(session[:user_id].to_s + save_file, open(file), "playgroundsociety", :access => :public_read)
+    tn_generate_and_upload("http://playgroundsociety.s3.amazonaws.com/", session[:user_id].to_s + save_file)
 
     Document.create(:path => save_file, :description => params[:description], :created_at => Time.now, :user_id => session[:user_id], :mission_id => params[:mission_id])
     flash[:notice] = "Successfully uploaded your documentation for Mission # #{params[:mission_id]}!"
