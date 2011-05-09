@@ -11,7 +11,7 @@
         - if doc.visible
           %p
             %h4= "#{doc.mission.campaign.description} #{doc.mission.id}"
-            %img.span-3(src="http://playgroundsociety.s3.amazonaws.com/#{user.id}#{doc.path}")
+            %img.span-3(src="http://playgroundsociety.s3.amazonaws.com/tn/#{user.id}#{doc.path}")
             %p
               #{doc.description}
             - if private
