@@ -5,7 +5,7 @@
       - mission.documents.all.each do |doc|
         -if doc.visible
           %p
-            %img.span-3(src="http://playgroundsociety.s3.amazonaws.com/#{doc.user.id}#{doc.path}")
+            %img.span-3(src="http://playgroundsociety.s3.amazonaws.com/tn/#{doc.user.id}#{doc.path}")
             %p
               #{doc.description}
             - if admin?

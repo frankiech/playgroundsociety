@@ -162,6 +162,7 @@ post '/account/document/update/:id' do |id|
   else
     msg = "Updated document but did not upload file."
   end
+  params.delete 'file'
   doc.update params
   flash[:notice] = msg
   redirect "/account/document/edit/#{id}"
