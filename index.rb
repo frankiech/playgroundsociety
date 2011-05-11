@@ -154,7 +154,7 @@ post '/account/document/update/:id' do |id|
     save_file = filename.gsub(" ", "")
 
     AWS::S3::Base.establish_connection!(:access_key_id => ENV["AWS_ACCESS_KEY"], :secret_access_key => ENV["AWS_SECRET_KEY"])
-    AWS::S3::S3Object.store(doc.user_id + save_file, open(file), "playgroundsociety", :access => :public_read)
+    AWS::S3::S3Object.store(doc.user_id.to_s + save_file, open(file), "playgroundsociety", :access => :public_read)
     tn_generate_and_upload("http://playgroundsociety.s3.amazonaws.com/", session[:user_id].to_s + save_file)
 
     Document.get(id).update(:path => save_file, :description => params[:description], :created_at => Time.now, :user_id => doc.user_id, :mission_id => params[:mission_id])
