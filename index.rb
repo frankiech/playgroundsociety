@@ -8,6 +8,7 @@ require 'models'
 require 'SMS'
 require 'aws/s3'
 require 'mini_magick'
+require 'uri'
 
 use Rack::Flash
 # use Rack::SslEnforcer
@@ -192,6 +193,22 @@ post '/account/document/post' do
 
   redirect "/account/document/new"
 end
+
+
+### Document Pages
+get '/document/:id' do |id|
+  # get the document and show it with its picture
+  # require 'uri' # this may not be necessary and should probably not happen here, but up top instead
+  # add a link to "http://twitter.com/intent/tweet?text=#{URI.encode(text_of_tweet)}" + url escaped text
+  doc = Document.get(id)
+  if session[:user_id] == doc.user.id
+    message = "Check out my pic of how I completed this Playground Society mission! http://playgroundsociety.com/document/#{id}"
+  else
+    message = "Check out this pic from a Playground Society mission! http://playgroundsociety.com/document/#{id}"
+  end
+  haml :document_public, :locals => {:doc => doc, :message => message}
+end
+
 
 ### User Pages
 before '/users/*' do
