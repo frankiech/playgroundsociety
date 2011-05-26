@@ -17,6 +17,8 @@
               #{doc.description}
             - if private
               %a(href="/account/document/edit/#{doc.id}") Edit
+              %br
+              %a(href="http://twitter.com/intent/tweet?text=#{URI.encode("Check out my pic of how I completed this Playground Society mission! http://playgroundsociety.com/document/#{doc.id}")}" target="_new") Tweet This!
             .clear
           %hr
     - else
