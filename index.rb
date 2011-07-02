@@ -307,9 +307,28 @@ post '/admin/users/:id/sendsms' do |id|
   redirect '/admin/users'
 end
 
-get '/admin/send_all' do |id|
+get '/admin/send_all' do
   flash[:notice] = send_all_sms
   redirect '/admin/users'
+end
+
+get '/admin/:user_id/missions.xml' do |user_id|
+  user = User.get(user_id)
+  missions = Mission.all(:id.lte => user.last_mission)
+
+  builder do |xml|
+    xml.instruct!
+    xml.user do
+      xml.user_id user_id
+      missions.each do |mission|
+        xml.mission do
+          xml.mission_id mission.id
+          xml.mission_text mission.description
+          xml.doc_count mission.documents(:user_id => user_id).count
+        end
+      end
+    end
+  end
 end
 
 ### other functions
