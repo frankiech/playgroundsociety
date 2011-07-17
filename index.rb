@@ -175,7 +175,7 @@ get '/account/document/new' do
 end
 
 post '/account/document/post' do
-  # Post the documentation to Amazon S3
+  # Post the documentation to Amazon S3 if there's a file attached
   if params[:file] and params[:mission_id]
     filename = params[:file][:filename]
     file = params[:file][:tempfile]
@@ -186,7 +186,12 @@ post '/account/document/post' do
     tn_generate_and_upload("http://playgroundsociety.s3.amazonaws.com/", session[:user_id].to_s + save_file)
 
     doc = Document.create(:path => save_file, :description => params[:description], :created_at => Time.now, :user_id => session[:user_id], :mission_id => params[:mission_id])
-    flash[:notice] = "Successfully uploaded your documentation for Mission # #{params[:mission_id]}!"
+    flash[:notice] = "Successfully uploaded your documentation with file for Mission # #{params[:mission_id]}!"
+    redirect "/document/#{doc.id}"
+  # Otherwise create a document with no file
+  elsif params[:mission_id]
+    doc = Document.create(:description => params[:description], :created_at => Time.now, :user_id => session[:user_id], :mission_id => params[:mission_id])
+    flash[:notice] = "Successfully uploaded your documentation text for Mission # #{params[:mission_id]}!"
     redirect "/document/#{doc.id}"
   else
     flash[:notice] = "Error uploading documentation. Please enter a mission and attach a file."

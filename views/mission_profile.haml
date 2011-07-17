@@ -3,18 +3,25 @@
     %h2 playground society
     - if mission.documents.count > 0
       - mission.documents.all.each do |doc|
-        -if doc.visible
-          %p
-            %a(href="http://playgroundsociety.s3.amazonaws.com/#{doc.user.id}#{doc.path}")
-              %img.span-3(src="http://playgroundsociety.s3.amazonaws.com/tn/#{doc.user.id}#{doc.path}")
+        - if doc.visible
+          - if doc.path
+            %p
+              %a(href="http://playgroundsociety.s3.amazonaws.com/#{doc.user.id}#{doc.path}")
+                %img.span-3(src="http://playgroundsociety.s3.amazonaws.com/tn/#{doc.user.id}#{doc.path}")
+              %p
+                #{doc.description}
+              - if admin?
+                %a(href="/account/document/edit/#{doc.id}") Edit
+              .clear
+          - else
             %p
               #{doc.description}
             - if admin?
               %a(href="/account/document/edit/#{doc.id}") Edit
             .clear
-            %p
-              %strong By: 
-              %a(href="/users/#{doc.user.id}") #{doc.user.login}
+          %p
+            %strong By: 
+            %a(href="/users/#{doc.user.id}") #{doc.user.login}
           .clear
           %br
           %hr
