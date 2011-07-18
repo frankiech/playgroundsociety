@@ -9,10 +9,19 @@
     - if user.documents.count > 0
       - user.documents.all.each do |doc|
         - if doc.visible
-          %p
-            %h4= "#{doc.mission.campaign.description} #{doc.mission.id}"
-            %a(href="http://playgroundsociety.s3.amazonaws.com/#{user.id}#{doc.path}")
-              %img.span-3(src="http://playgroundsociety.s3.amazonaws.com/tn/#{user.id}#{doc.path}")
+          %h4= "#{doc.mission.campaign.description} #{doc.mission.id}"
+          - if doc.path
+            %p
+              %a(href="http://playgroundsociety.s3.amazonaws.com/#{user.id}#{doc.path}")
+                %img.span-3(src="http://playgroundsociety.s3.amazonaws.com/tn/#{user.id}#{doc.path}")
+              %p
+                #{doc.description}
+              - if private
+                %a(href="/account/document/edit/#{doc.id}") Edit
+                %br
+                %a(href="http://twitter.com/intent/tweet?text=#{URI.encode("Check out my pic of how I completed this Playground Society mission! http://playgroundsociety.com/document/#{doc.id}")}" target="_new") Tweet This!
+              .clear
+          - else
             %p
               #{doc.description}
             - if private
