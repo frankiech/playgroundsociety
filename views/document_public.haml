@@ -1,7 +1,15 @@
 .prepend-3
   #document-display.box.span-8
-    %img.span-6.push-1(src="http://playgroundsociety.s3.amazonaws.com/#{doc.user_id}#{doc.path}")
-    .clear
-    %p.span-8(style="text-align: center;") #{doc.user.name} posted this pic for Play Mission ##{doc.mission_id}!
-    %br
-    %a.span-8(href="http://twitter.com/intent/tweet?text=#{URI.encode(message)}" target="_new" style="text-align: center;") Tweet This!
+    - if doc.path
+      %img.span-6.push-1(src="http://playgroundsociety.s3.amazonaws.com/#{doc.user_id}#{doc.path}")
+      .clear
+      %p.span-8(style="text-align: center;") #{doc.user.name} posted this pic for Play Mission ##{doc.mission_id}!
+      %br
+      %a.span-8(href="http://twitter.com/intent/tweet?text=#{URI.encode(message)}" target="_new" style="text-align: center;") Tweet This!
+    - else
+      %p.span-8(style="text-align: center; background-color: lightyellow") #{doc.description}
+      .clear
+      %p.span-8(style="text-align: center;") #{doc.user.name} posted this update for Play Mission ##{doc.mission_id}!
+      %br
+      %a.span-8(href="http://twitter.com/intent/tweet?text=#{URI.encode(message)}" target="_new" style="text-align: center;") Tweet This!
+
