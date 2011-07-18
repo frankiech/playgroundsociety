@@ -11,26 +11,15 @@
         - if doc.visible
           %p
             %h4= "#{doc.mission.campaign.description} #{doc.mission.id}"
-          - if doc.path
-            %p
-              %a(href="http://playgroundsociety.s3.amazonaws.com/#{doc.user.id}#{doc.path}")
-                %img.span-3(src="http://playgroundsociety.s3.amazonaws.com/tn/#{doc.user.id}#{doc.path}")
-              %p
-                #{doc.description}
-              - if admin?
-                %a(href="/account/document/edit/#{doc.id}") Edit
-              .clear
-          - else
+            %a(href="http://playgroundsociety.s3.amazonaws.com/#{user.id}#{doc.path}")
+              %img.span-3(src="http://playgroundsociety.s3.amazonaws.com/tn/#{user.id}#{doc.path}")
             %p
               #{doc.description}
-            - if admin?
+            - if private
               %a(href="/account/document/edit/#{doc.id}") Edit
+              %br
+              %a(href="http://twitter.com/intent/tweet?text=#{URI.encode("Check out my pic of how I completed this Playground Society mission! http://playgroundsociety.com/document/#{doc.id}")}" target="_new") Tweet This!
             .clear
-          %p
-            %strong By: 
-            %a(href="/users/#{doc.user.id}") #{doc.user.login}
-          .clear
-          %br
           %hr
     - else
       %p
