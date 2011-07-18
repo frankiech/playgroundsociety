@@ -1,6 +1,6 @@
 %h2 play missions
 %p
-  As you receive Play Missions, they become unlocked and you can see documentation for each mission by the entire community of players. 
+  As you receive Play Missions, they become unlocked and you can see documentation for each mission by the entire community of players.
 - if editable
   %p
     .flash= flash[:notice]
@@ -10,16 +10,25 @@
     %th #
     -# %th Campaign
     %th Description
-    %th Documentation
+    - if not editable
+      %th Complete?
+    %th Options
+    %th 
   - missions.each do |mission|
     %tr
       %td= mission.id
       -# %td= mission.campaign.description
       %td= mission.description
-      - if editable
+      -if not editable
         %td
-          %a(href="/admin/missions/#{mission.id}/edit") Edit Mission
+          -# %input{:type => "checkbox", :checked => mission.documents.count > 0, :disabled => true}
+          - if mission.documents.count > 0
+            Yes
+          - else
+            %a(href="/account/document/add/#{mission.id}") No
+      %td
+        - if editable
+          %a(href="/admin/missions/#{mission.id}/edit") Edit
           %br
-      - else
-        %td
+        - else
           %a(href="/missions/#{mission.id}") View

@@ -174,6 +174,20 @@ get '/account/document/new' do
   haml :document_new, :locals => {:action => "/account/document/post", :missions => Mission.all(:id.lte => session[:last_mission])}
 end
 
+get '/account/document/add/:mission_id' do |mission_id|
+  # add a record to mark a mission complete
+  user = User.get(session[:user_id])
+  mission_docs_count = user.documents(:mission_id => mission_id).count
+
+  if mission_docs_count > 0
+    flash[:notice] = "Mission already contains documentation."
+  else
+    doc = Document.create(:description => "Mission completed!", :created_at => Time.now, :user_id => user.id, :mission_id => mission_id)
+    flash[:notice] = "Mission marked complete."
+  end
+  redirect '/missions'
+end
+
 post '/account/document/post' do
   # Post the documentation to Amazon S3 if there's a file attached
   if params[:file] and params[:mission_id]
