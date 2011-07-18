@@ -343,7 +343,9 @@ get '/admin/:user_id/missions.xml' do |user_id|
         xml.mission do
           xml.mission_id mission.id
           xml.mission_text mission.description
-          xml.doc_count mission.documents(:user_id => user_id).count
+          xml.completed mission.documents(:user_id => user_id).count > 0
+          xml.photo_count mission.documents(:user_id => user_id, :path.not => nil).count
+          xml.text_count mission.documents(:user_id => user_id, :path => nil).count
         end
       end
     end
