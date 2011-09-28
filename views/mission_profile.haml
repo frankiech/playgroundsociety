@@ -1,10 +1,6 @@
 .ps-profile
   .ps-profile-documentation.span-11.colborder
     %h2 playground society
-    %p
-      - if private
-        %a(href="/account/document/new") Add Play Documentation
-    %hr
     - if mission.documents.count > 0
       - mission.documents.all.each do |doc|
         - if doc.visible
